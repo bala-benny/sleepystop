@@ -117,7 +117,7 @@ async function getCoordinates(place) {
     lon: parseFloat(data[0].lon)
   };
 }
-let watchID;
+
 let destinationCoords;
 
 async function startTracking() {
