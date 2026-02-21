@@ -109,8 +109,23 @@ document.getElementById("status").innerHTML =
 
     },
     (error) => {
-      alert("GPS Permission Denied");
-    },
+
+  console.error("GPS Error:", error);
+
+  if (error.code === 1) {
+    alert("Location Permission Blocked ❌");
+  }
+
+  if (error.code === 2) {
+    alert("Position Not Available");
+  }
+
+  if (error.code === 3) {
+    alert("GPS Timeout");
+  }
+
+}
+    ,
     {
       enableHighAccuracy: true,
       timeout: 5000,
