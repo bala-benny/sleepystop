@@ -86,6 +86,7 @@ document.getElementById("status").innerHTML =
 
       const currentLat = position.coords.latitude;
       const currentLon = position.coords.longitude;
+      if (!destinationCoords) return;
 
       const distance = calculateDistance(
         currentLat,
@@ -93,6 +94,7 @@ document.getElementById("status").innerHTML =
         destinationCoords.lat,
         destinationCoords.lon
       );
+      if (isNaN(distance)) return;
 
       document.getElementById("status").innerHTML =
         "📍 Distance: " + distance.toFixed(2) + " km";
