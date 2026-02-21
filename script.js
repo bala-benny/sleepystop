@@ -117,3 +117,71 @@ async function getCoordinates(place) {
     lon: parseFloat(data[0].lon)
   };
 }
+let watchID;
+let destinationCoords;
+
+async function startTracking() {
+
+  let place = document.getElementById("placeName").value;
+
+  if (!place) {
+    alert("Enter destination place!");
+    return;
+  }
+
+  destinationCoords = await getCoordinates(place);
+
+  if (!destinationCoords) return;
+
+  if (!navigator.geolocation) {
+    alert("GPS not supported");
+    return;
+  }
+
+  watchID = navigator.geolocation.watchPosition(
+
+    (position) => {
+
+      let currentLat = position.coords.latitude;
+      let currentLon = position.coords.longitude;
+
+      let distance = calculateDistance(
+        currentLat,
+        currentLon,
+        destinationCoords.lat,
+        destinationCoords.lon
+      );
+
+      document.getElementById("status").innerHTML =
+        "📍 Distance: " + distance.toFixed(2) + " km";
+
+      if (distance <= 0.1) {
+
+        alert("🎉 You reached near destination!");
+
+        stopTracking();
+      }
+
+    },
+
+    (error) => {
+      alert("GPS Permission Denied");
+    },
+
+    {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    }
+  );
+}
+function stopTracking() {
+
+  if (watchID) {
+    navigator.geolocation.clearWatch(watchID);
+    watchID = null;
+  }
+
+  document.getElementById("status").innerHTML =
+    "🛑 Tracking Stopped";
+}
