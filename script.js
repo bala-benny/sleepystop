@@ -86,6 +86,8 @@ document.getElementById("status").innerHTML =
 
       const currentLat = position.coords.latitude;
       const currentLon = position.coords.longitude;
+      console.log("DESTINATION COORDS:", destinationCoords);
+      console.log("CALCULATED DISTANCE:", distance);
       if (!destinationCoords) return;
 
       const distance = calculateDistance(
