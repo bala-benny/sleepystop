@@ -137,21 +137,36 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 async function getCoordinates(place) {
 
-  let response = await fetch(
-    `https://nominatim.openstreetmap.org/search?format=json&q=${place}`
-  );
+  try {
 
-  let data = await response.json();
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`,
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "User-Agent": "SleepyStopApp"
+        }
+      }
+    );
 
-  if (data.length === 0) {
-    alert("Place not found!");
+    const data = await response.json();
+
+    if (!data || data.length === 0) {
+      alert("Place not found!");
+      return null;
+    }
+
+    return {
+      lat: parseFloat(data[0].lat),
+      lon: parseFloat(data[0].lon)
+    };
+
+  } catch (error) {
+    console.error("Geocoding Error:", error);
+    alert("Failed to fetch coordinates");
     return null;
   }
-
-  return {
-    lat: parseFloat(data[0].lat),
-    lon: parseFloat(data[0].lon)
-  };
 }
 
 let destinationCoords;
