@@ -53,3 +53,32 @@ function giveBadge() {
   document.getElementById("badge").innerHTML =
     "🎀 Badge Unlocked: SleepyStop Star 🌟";
 }
+let watchID;
+
+function startRealTracking() {
+
+  if (!navigator.geolocation) {
+    alert("Geolocation not supported");
+    return;
+  }
+
+  watchID = navigator.geolocation.watchPosition(
+    (position) => {
+
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
+
+      document.getElementById("status").innerHTML =
+        "📍 Live Location:<br>" + lat + " , " + lon;
+
+    },
+    (error) => {
+      alert("Location permission denied!");
+    },
+    {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 5000
+    }
+  );
+}
