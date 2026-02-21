@@ -139,16 +139,13 @@ async function getCoordinates(place) {
 
   try {
 
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`,
-      {
-        method: "GET",
-        headers: {
-          "Accept": "application/json",
-          "User-Agent": "SleepyStopApp"
-        }
-      }
-    );
+    const url =
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`;
+
+    const proxyUrl =
+      "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+
+    const response = await fetch(proxyUrl);
 
     const data = await response.json();
 
@@ -163,8 +160,9 @@ async function getCoordinates(place) {
     };
 
   } catch (error) {
+
     console.error("Geocoding Error:", error);
-    alert("Failed to fetch coordinates");
+    alert("Failed to get location coordinates");
     return null;
   }
 }
