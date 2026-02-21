@@ -59,7 +59,8 @@ function giveBadge() {
 let watchID;
 
 async function startTracking() {
-
+document.getElementById("status").innerHTML =
+  "🔄 Finding your location...";
   const placeInput = document.getElementById("placeName");
 
   if (!placeInput || !placeInput.value) {
