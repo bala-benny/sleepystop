@@ -11,8 +11,14 @@
 
 <div class="card">
 
-  <input type="text" id="destination" placeholder="Enter Destination Stop">
+  <input type="text" id="placeName" placeholder="Enter Destination Place Name">
+<button onclick="startTracking()">
+  📍 Start Tracking
+</button>
 
+<button onclick="stopTracking()">
+  ❌ Stop Tracking
+</button>
   <label>Travel Speed (km/h)</label>
   <input type="range" id="speed" min="20" max="100" value="40">
 
