@@ -1,3 +1,6 @@
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("SleepyStop JS Loaded ✅");
+});
 let distance = 5; // simulated km
 let interval;
 let alarmTimeout;
