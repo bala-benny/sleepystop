@@ -155,12 +155,18 @@ async function getCoordinates(place) {
   try {
 
     const url =
-      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`;
+      `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}&limit=1`;
 
-    const proxyUrl =
-      "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
 
-    const response = await fetch(proxyUrl);
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
 
     const data = await response.json();
 
@@ -177,7 +183,7 @@ async function getCoordinates(place) {
   } catch (error) {
 
     console.error("Geocoding Error:", error);
-    alert("Failed to get location coordinates");
+    alert("Failed to load location coordinates");
     return null;
   }
 }
