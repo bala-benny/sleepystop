@@ -58,30 +58,58 @@ function giveBadge() {
 }
 let watchID;
 
-function startRealTracking() {
+async function startTracking() {
+
+  const placeInput = document.getElementById("placeName");
+
+  if (!placeInput || !placeInput.value) {
+    alert("Enter destination place!");
+    return;
+  }
+
+  destinationCoords = await getCoordinates(placeInput.value);
+
+  if (!destinationCoords) return;
 
   if (!navigator.geolocation) {
-    alert("Geolocation not supported");
+    alert("Geolocation not supported!");
     return;
+  }
+
+  if (watchID) {
+    navigator.geolocation.clearWatch(watchID);
   }
 
   watchID = navigator.geolocation.watchPosition(
     (position) => {
 
-      let lat = position.coords.latitude;
-      let lon = position.coords.longitude;
+      const currentLat = position.coords.latitude;
+      const currentLon = position.coords.longitude;
+
+      const distance = calculateDistance(
+        currentLat,
+        currentLon,
+        destinationCoords.lat,
+        destinationCoords.lon
+      );
 
       document.getElementById("status").innerHTML =
-        "📍 Live Location:<br>" + lat + " , " + lon;
+        "📍 Distance: " + distance.toFixed(2) + " km";
+
+      // 🔥 Auto alert when near
+      if (distance <= 0.1) {
+        alertUser("🎉 You reached near destination!", "funny");
+        stopTracking();
+      }
 
     },
     (error) => {
-      alert("Location permission denied!");
+      alert("GPS Permission Denied");
     },
     {
       enableHighAccuracy: true,
-      maximumAge: 0,
-      timeout: 5000
+      timeout: 5000,
+      maximumAge: 0
     }
   );
 }
