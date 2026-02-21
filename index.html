@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SleepyStop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🌙 SleepyStop</h1>
+<p>💤 Travel peacefully, we’ll wake you up gently 💖</p>
+
+<div class="card">
+
+  <input type="text" id="destination" placeholder="Enter Destination Stop">
+
+  <label>Travel Speed (km/h)</label>
+  <input type="range" id="speed" min="20" max="100" value="40">
+
+  <label>Personality Mode</label>
+  <select id="mode">
+    <option value="normal">Normal</option>
+    <option value="funny">Funny</option>
+    <option value="aggressive">Aggressive</option>
+  </select>
+
+  <label>
+    <input type="checkbox" id="safety">
+    Enable Safety Mode
+  </label>
+
+  <button onclick="startTrip()">Start Trip</button>
+
+</div>
+
+<div id="status"></div>
+<div id="badge"></div>
+
+<!-- Popup -->
+<div id="popup" class="popup hidden">
+  <div class="popup-content">
+    <p id="popup-message"></p>
+    <button onclick="dismissAlert()">Dismiss</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
